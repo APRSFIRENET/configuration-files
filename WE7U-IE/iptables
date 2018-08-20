@@ -1,0 +1,42 @@
+# sample configuration for iptables service
+# you can edit this manually or use system-config-firewall
+# please do not ask us to add additional ports/services to this default configuration
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport    22 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport    23 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport    23 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport  1314 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport  1314 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport  2023 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport  2023 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport  2323 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport  2323 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport  3272 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport  3278 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport  3278 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10152 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport 10152 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10153 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport 10153 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10154 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport 10154 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 10155 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 14501 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 14502 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 14503 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 14504 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 14507 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 14580 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport 14580 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport 61000 -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 61102 -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport 61102 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT

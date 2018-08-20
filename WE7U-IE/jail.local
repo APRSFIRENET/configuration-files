@@ -1,0 +1,53 @@
+[DEFAULT]
+
+#
+# MISCELLANEOUS OPTIONS
+#
+
+# "ignoreip" can be an IP address, a CIDR mask or a DNS host. Fail2ban will not
+# ban a host which matches an address in this list. Several addresses can be
+# defined using space (and/or comma) separator.
+#
+# The 129.15 and 68.97 addresses are John's.
+# The 129.196 and 24.19 addresses are Curt's.
+ignoreip = 127.0.0.1/8 129.15/16 68.97.45.171 129.196/16 24.19.35.107
+
+
+# External command that will take an tagged arguments to ignore, e.g. <ip>,
+# and return true if the IP is to be ignored. False otherwise.
+#
+# ignorecommand = /path/to/command <ip>
+ignorecommand =
+
+
+# "bantime" is the number of seconds that a host is banned.
+#
+#bantime  = 600         ; 10 mins
+#bantime  = 3600        ; 1 hour
+#bantime  = 86400       ; 1 day
+bantime  = 604800      ; 1 week
+#bantime   = 2592000     ; 1 month, 30 days
+#bantime  = 31536000    ; 1 year, 365 days
+
+
+findtime = 604800	; 1 week
+
+
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+
+[sshd]
+
+# To use more aggressive sshd filter (inclusive sshd-ddos failregex):
+#filter = sshd-aggressive
+port    = ssh
+enabled = true
+#logpath = %(sshd_log)s
+#backend = %(sshd_backend)s
+backend = systemd
+action   = iptables[name=SSH, port=ssh, protocol=tcp]
+#           sendmail-whois[name=SSH, dest=archer@localhost, sender=fail2ban@mail.com]
+maxretry = 2
+
+

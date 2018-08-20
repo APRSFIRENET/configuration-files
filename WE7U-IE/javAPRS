@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# javaprssrvr        Startup script for the Java APRS Server
+#
+# chkconfig: - 70 30
+# description: javaprssrvr acts as an APRS server/Igate/Digipeater
+# processname: javAPRSSrvr
+# config: /opt/javaprssrcr/javaprssrcr.cfg
+# pidfile: /var/run/javAPRSSrvr.pid
+# errorfile: /opt/javaprssrvr/err.log
+#
+# Author: Graham Auld aprs@graham.auld.me.uk 15th Jan 2007
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+
+# Path to the java runtime, the main jar file and such.
+java=/usr/bin/java
+#jardir=/opt/javAPRSsrvr
+jardir=/home/we7u/javAPRSSrvr/V4
+javaprssrvr=javAPRSSrvr.jar
+prog=javAPRSSrvr
+pidfile=/var/run/$prog.pid
+lockfile=/var/lock/subsys/$prog
+#lockfile=/home/we7u/javAPRSSrvr/$prog
+RETVAL=0
+
+start() {
+        echo -n $"Starting $prog: "
+	cd $jardir
+	#daemon "$java -server -jar -XX:+UseParallelOldGC -Djdk.map.althashing.threshold=0 -Xms192m -Xmx192m $javaprssrvr &"
+    daemon "$java -server -jar $javaprssrvr &"
+        RETVAL=$?
+	echo
+        [ $RETVAL = 0 ] && touch ${lockfile}
+        return $RETVAL
+}
+
+# When stopping httpd a delay of >10 second is required before SIGKILLing the
+# httpd parent; this gives enough time for the httpd parent to SIGKILL any
+# errant children.
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc $java
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && rm -f ${lockfile} ${pidfile}
+}
+#see how we were called
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+        tail $logfile
+	RETVAL=$?
+	;;
+  restart)
+	stop
+	start
+	;;
+  condrestart)
+	if [ -f ${pidfile} ] ; then
+		stop
+		start
+	fi
+	;;
+  *)
+	echo $"Usage: $prog {start|stop|restart|status|}"
+	exit 1
+esac
+
+exit $RETVAL

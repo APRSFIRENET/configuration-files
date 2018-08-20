@@ -1,0 +1,23 @@
+CentOS7
+
+Disable firewalld
+Install/enable iptables
+Update /etc/sysconfig/iptables from the file here.
+
+Install/enable fail2ban
+Update /etc/fail2ban/jail.local from the file here.
+
+Create a user "we7u"
+
+Create a directory "javAPRSSrvr"
+
+Install recursively all the directories and files here to that directory.
+
+cd javAPRSSrvr
+./javAPRSSrvr start
+
+http://44.155.254.6:14501/detail   -or-   http://we7u-ie.firenet.us:14501/detail
+http://n5jxs-f1.firenet.us:14501/
+http://wg3k-nj.firenet.us:14501/
+
+
